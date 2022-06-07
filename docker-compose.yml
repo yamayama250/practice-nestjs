@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+  mysql:
+    image: mysql:5.7 
+    container_name: mysql_container
+    environment:
+      MYSQL_ROOT_PASSWORD: root # MySQLパスワード設定
+      MYSQL_DATABASE: dev # MySQLデータベース名設定
+      TZ: "Asia/Tokyo"
+    ports:
+      - "3306:3306"
