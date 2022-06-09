@@ -1,13 +1,13 @@
 import { Controller, Get, Param, Post, Put, Delete, Body } from '@nestjs/common';
 import { AppService } from './app.service';
-import { UserService } from './service/user.service'
-import { User } from '@prisma/client'
+import { ToDoService } from './service/todo.service'
+import { ToDo } from '@prisma/client'
 
-@Controller()
+@Controller("api/v1")
 export class AppController {
   constructor(
     private readonly appService: AppService,
-    private readonly userService: UserService
+    private readonly userService: ToDoService
   ) {}
 
   @Get()
@@ -15,31 +15,31 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @Get("users")
-  async getUsers(): Promise<User[]> {
-    return this.userService.users({})
+  @Get("todos")
+  async getUsers(): Promise<ToDo[]> {
+    return this.userService.todos({})
   }
 
-  @Get("users/:id")
-  async getUser(@Param('id') id: string): Promise<User> {
-    return this.userService.user({ id: Number(id) })
+  @Get("todos/:id")
+  async getUser(@Param('id') id: string): Promise<ToDo> {
+    return this.userService.todo({ id: Number(id) })
   }
 
-  @Post("users")
-  async createUser(@Body() userData: { email: string, name: string }): Promise<User> {
-    return this.userService.createUser(userData)
+  @Post("todos")
+  async createUser(@Body() todoData: { title: string, body: string }): Promise<ToDo> {
+    return this.userService.createTodo(todoData)
   }
 
-  @Put("users/:id")
-  async putUser(@Param("id") id: string, @Body() userData: { email: string, name: string }): Promise<User> {
-    return this.userService.updateUser({ 
+  @Put("todos/:id")
+  async putUser(@Param("id") id: string, @Body() todoData: { title: string, body: string }): Promise<ToDo> {
+    return this.userService.updateTodo({ 
       where: { id: Number(id) },
-      data: userData
+      data: todoData
     })
   }
 
-  @Delete("users/:id")
-  async deleteUser(@Param("id") id: string): Promise<User> {
-    return this.userService.deleteUser({ id: Number(id) })
+  @Delete("todos/:id")
+  async deleteUser(@Param("id") id: string): Promise<ToDo> {
+    return this.userService.deleteTodo({ id: Number(id) })
   }
 }

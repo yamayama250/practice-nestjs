@@ -10,8 +10,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
+model ToDo {
   id Int @default(autoincrement()) @id
-  email String @unique
-  name String
+  title String @db.Char(50)
+  body String @db.Char(100)
 }
